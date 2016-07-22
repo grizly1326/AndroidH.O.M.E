@@ -7,53 +7,58 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import ClassList.ComputerList;
 import Click.MainClick;
+import Click.MainRefresh;
+import Settings.MainSettings;
 import Threads.NetworkBroadcast;
 import Threads.NetworkReceive;
-import Threads.NetworkSend;
 import Threads.TcpReceive;
 
 
 public class Main extends AppCompatActivity {
     static LinearLayout la;
-    static Context context;             //this is for starting a new activity
+    static Context context;
     static TextView t1;
+    static Button b1;
     public static DatagramSocket socket=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            socket=new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-            Log.e("MSG","Cannot create Datagram.");
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        t1=(TextView) findViewById(R.id.textView);
         context=getApplicationContext();
-        new NetworkReceive().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        t1=(TextView) findViewById(R.id.textView);
         la=(LinearLayout)findViewById(R.id.LinearLayout2);
-        ComputerList.ClearList();
-        new NetworkBroadcast().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);           //small filles.
-        new TcpReceive().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);                 //large filles receive.
+        b1=(Button)findViewById(R.id.button);
+        b1.setOnClickListener(new MainRefresh());
+        addComputerButton();
+        if(MainSettings.MainOnce){
+            try {
+                socket=new DatagramSocket();
+            } catch (SocketException e) {
+                e.printStackTrace();
+                Log.e("MSG","Cannot create Datagram.");
+            }
+            new NetworkReceive().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new NetworkBroadcast().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);           //small filles.
+            new TcpReceive().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);                 //large filles receive.
+            ComputerList.ClearList();
+            MainSettings.MainOnce=false;
+        }
     }
     public static void updateTextView(String s){
         t1.setText(t1.getText()+",  \r\n"+s);
     }
-    public static void startNewActivity(){
-        context.startActivity(new Intent(context,SecondPage.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    public static void startMediaActivity(){
+        context.startActivity(new Intent(context,MediaPage.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
     public static void addToast(String text){
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();

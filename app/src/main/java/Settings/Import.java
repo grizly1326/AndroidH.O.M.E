@@ -10,12 +10,14 @@ import java.io.InputStreamReader;
 
 import ClassList.MediaList;
 import SpecialClasses.MediaBlock;
+import malysoft.home.Main;
 
 /**
  * Created by danie on 7/21/2016.
  */
 public class Import {
     public static void ImportList() {
+        MediaList.deleteDir();
         FileInputStream fstream = null;
         try {
             fstream = new FileInputStream(Environment.getExternalStorageDirectory()+"/list.txt");
@@ -36,6 +38,7 @@ public class Import {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Main.startMediaActivity();
 }
     private static void ListSwitcher(String line){
         String[] sub=line.split("//");

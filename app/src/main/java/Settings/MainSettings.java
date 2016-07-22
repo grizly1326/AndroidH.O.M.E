@@ -5,4 +5,6 @@ package Settings;
  */
 public class MainSettings {
     public static boolean ReceiveLoop=true;
+    public static boolean MainOnce=true;
+    public static int Server;
 }

@@ -20,6 +20,9 @@ public class MediaList {
     public static int getDirSize(){
         return dirList.size();
     }
+    public static void deleteDir(){
+        dirList.clear();
+    }
     public static int findBynameInMusicList(String name){
         int out=0;
         for(int i=0;i<musicList.size();i++){

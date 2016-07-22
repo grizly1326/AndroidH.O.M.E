@@ -3,6 +3,7 @@ package Threads;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -15,19 +16,23 @@ public class TcpReceive extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        Log.d("MSG","File-Server Received File...");
-        Import.ImportList();
-        new TcpReceive().execute();
+        Log.d("MSG","File-Server Closed");
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        try {
-            FileTransfer f= new FileTransfer(new ServerSocket(1325).accept());
-            f.receive();
-        } catch (IOException e) {
-            e.printStackTrace();
+        FileTransfer f=null;
+        while(true){
+            try {
+               f = new FileTransfer(new ServerSocket(1325).accept());
+                f.receive();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for(File file:f.getFile()){
+                if(file.getName().equals("list.txt"))Import.ImportList();
+            }
+            //Import.ImportList();
         }
-        return null;
     }
 }

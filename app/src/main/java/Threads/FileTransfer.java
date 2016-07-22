@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class FileTransfer {
 
+    private ArrayList<File> files = new ArrayList<File>();
     private Socket socket;
 
     public FileTransfer(Socket socket) {
@@ -28,12 +29,14 @@ public class FileTransfer {
             e.printStackTrace();
         }
     }
-
+    public ArrayList<File> getFile(){
+        return files;
+    }
     public void receive(){
+        files.clear();
         try {
             DataInputStream dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             int number = dis.readInt();
-            ArrayList<File> files = new ArrayList<File>(number);
             Log.d("MSG","Number of Files to be received: " +number);
             long fileSize = 0;
             long FILE_SIZE=0;
