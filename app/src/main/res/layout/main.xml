@@ -13,16 +13,6 @@
         android:text="Find Server"
         android:id="@+id/button" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"
-        android:enabled="false"
-        android:gravity="center" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

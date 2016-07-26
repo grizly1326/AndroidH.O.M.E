@@ -27,7 +27,6 @@ import Threads.TcpReceive;
 public class Main extends AppCompatActivity {
     static LinearLayout la;
     static Context context;
-    static TextView t1;
     static Button b1;
     public static DatagramSocket socket=null;
     @Override
@@ -35,7 +34,6 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         context=getApplicationContext();
-        t1=(TextView) findViewById(R.id.textView);
         la=(LinearLayout)findViewById(R.id.LinearLayout2);
         b1=(Button)findViewById(R.id.button);
         b1.setOnClickListener(new MainRefresh());
@@ -53,9 +51,6 @@ public class Main extends AppCompatActivity {
             ComputerList.ClearList();
             MainSettings.MainOnce=false;
         }
-    }
-    public static void updateTextView(String s){
-        t1.setText(t1.getText()+",  \r\n"+s);
     }
     public static void startMediaActivity(){
         context.startActivity(new Intent(context,MediaPage.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

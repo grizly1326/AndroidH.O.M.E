@@ -11,20 +11,22 @@ import android.widget.TextView;
 import ClassList.MediaList;
 import Click.MainClick;
 import Click.MediaClick;
+import Settings.MainSettings;
 
 public class MediaPage extends AppCompatActivity {
 
     static Context context;
     static LinearLayout la;
-    static TextView text;
+    static TextView InfoBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_page);
+        UpdateInfo("IP: "+ MainSettings.Server);
         context=getApplicationContext();
         la=(LinearLayout)findViewById(R.id.LinearLayout3);
-        text=(TextView)findViewById(R.id.textView2);
-        text.setText(MediaList.getDirBlock(0).getName()+":    "+MediaList.getDirBlock(0).getPath());
+        InfoBar=(TextView)findViewById(R.id.textView2);
+        InfoBar.setText(MediaList.getDirBlock(0).getName()+":    "+MediaList.getDirBlock(0).getPath());
         addDirBlock();
     }
     public static void addDirBlock(){
@@ -39,5 +41,8 @@ public class MediaPage extends AppCompatActivity {
             b.setOnClickListener(new MediaClick(i));
             la.addView(b);
         }
+    }
+    public static void UpdateInfo(String text){
+        InfoBar.setText(text);
     }
 }
